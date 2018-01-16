@@ -19,3 +19,18 @@ public:
         return sum;
     }
 };
+
+Example:
+    a = 4, b = 5;
+    a = 100; b = 101;
+    loop 1: sum = a = 100, b = 101 != 0; -> sum  = a ^ b = 001; b = (a & b) << 1 = 100 << 1 = 1000; a = 001;
+    loop 2: sum = a ^ b = 1001; b = (a & b) << 1 = (001 & 1000) << 1 = 00000; a = sum = 1001;
+    loop 3: b = 0; break;
+    result 1001 = 9;
+    
+Note:
+    a ^ b --> calculate sum of a and b without thinking the carry;
+    a & b --> calculate the carry at current location;
+    (a & b) << 1 --> move the carry to upper postion which should be for the calculation;
+    b --> present the carry, so as the carry is zero means we get the final result.
+    
