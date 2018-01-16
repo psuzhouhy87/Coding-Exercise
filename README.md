@@ -1,6 +1,8 @@
 # hello-world
 Just started to learning Github
 
-Hi Github. I just created this place to record what I have learned and what I will learing about programming!
+Hi Github. 
 
-Happy everyday!
+This file record the process of my C++ skill developing using Leetcode.
+
+Practice and Exercise everyday!
