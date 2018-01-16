@@ -34,3 +34,29 @@ Note:
     (a & b) << 1 --> move the carry to upper postion which should be for the calculation;
     b --> present the carry, so as the carry is zero means we get the final result.
     
+A summary: how to use bit manipulation to solve problems easily and efficiently
+    Set union A | B
+    Set intersection A & B
+    Set subtraction A & ~B
+    Set negation ALL_BITS ^ A or ~A
+    Set bit A |= 1 << bit
+    Clear bit A &= ~(1 << bit)
+    Test bit (A & 1 << bit) != 0
+    Extract last bit A&-A or A&~(A-1) or x^(x&(x-1))
+    Remove last bit A&(A-1)
+    Get all 1-bits ~0
+    
+    Example:
+        # count the number of ones in the binary representation of the given number
+            int count_one(int n){
+                while(n){
+                    n = n & (n-1);
+                    count++;
+                }
+                return count;
+             }
+        # Determine whether is power of four
+            bool isPowerofFour(int n){
+                return !(n & (n-1)) && (n & 0x55555555);
+            }
+            
