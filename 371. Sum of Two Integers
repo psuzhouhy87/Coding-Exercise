@@ -55,8 +55,12 @@ A summary: how to use bit manipulation to solve problems easily and efficiently
                 }
                 return count;
              }
+        # Determine wheter is power of two
+            bool isPowerofTwo(int n){
+                return (n > 0) && ((n & (n-1) == 0));
+            }
         # Determine whether is power of four
             bool isPowerofFour(int n){
-                return !(n & (n-1)) && (n & 0x55555555);
-            }
+                return !(n & (n-1)) && (n & 0x55555555); // 0x55555555 = 01010101010101010101010101010101 
+            }                                            // !(n & (n-1)) = 0 when n is the power of 2.
             
