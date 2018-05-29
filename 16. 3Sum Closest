@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        stack<int> container;
+        sort(nums.begin(),nums.end());
+        int i = 1;
+        int sum = 0;
+        
+        while(i < nums.size()-1){
+            int j = 0;
+            int k = nums.size()-1;
+            while(j < i && i < k ){
+                sum = nums[i]+nums[j]+nums[k];
+                if (sum == target) {return target;}
+                else if (sum < target){j++;}
+                else{k--;}
+                if (container.empty()) {container.push(sum);}
+            
+                if (abs(sum-target) < abs(container.top()-target)){
+                    container.pop();
+                    container.push(sum);
+                } 
+            } 
+            i++;
+        }
+        return container.top();
+    }           
+};
+
+
