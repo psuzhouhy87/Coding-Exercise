@@ -25,3 +25,6 @@ public:
 	return distance(nums.begin(), lower_bound(nums.begin(), nums.end(), target));
     }
 };
+
+function distance(first, last) -> calculate the number of elements between first and last (ex: 1 2 3 4 5, distance(first, last) = 5)
+function lower_bound(first, last, val) -> return an iterator pointing to the first element in the range [first, last) which does not compare less than val
