@@ -1,0 +1,66 @@
+23 ms
+class Solution {
+public:
+    int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+	int weight1 = C - A;
+	int weight2 = G - E;
+	int height1 = D - B;
+	int height2 = H - F;
+
+	int area1 = weight1*height1;
+	int area2 = weight2*height2;
+
+	int weight3 = min(C, G) - max(A, E);
+	int height3 = min(D, H) - max(B, F);
+	
+	if (min(C, G) < 0 && max(A, E) > 0) {
+		weight3 = -1;
+	}
+	
+	if (weight3 >0 && height3>0 ) {
+		return area1 + area2 - weight3*height3;
+	}
+	
+	else {
+		return area1 + area2;
+	}
+}
+};
+
+Idea1: 22 ms
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) 
+{
+    int total = (C-A) * (D-B) + (G-E) * (H-F);  // calculate the area
+    
+    if (C<=E || A>=G || B>=H || D<=F )
+        return total;
+    else
+    {
+        vector <int> h;
+        h.push_back(A);
+        h.push_back(C);
+        h.push_back(E);
+        h.push_back(G);
+   
+        vector <int> v;
+        v.push_back(B);
+        v.push_back(D);
+        v.push_back(F);
+        v.push_back(H);
+    
+        sort(h.begin(), h.end());
+        sort(v.begin(), v.end());
+    
+        total = total - (h[2] - h [1]) * (v[2] - v[1]);  // cool part
+        return total;
+    }
+}
+
+Idear2: (clean code)
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+    int s1 = (C - A) * (D - B);
+    int s2 = (G - E) * (H - F); 
+    if (A >= G || C <= E || D <= F || B >= H)
+        return s1 + s2; 
+    return s1 - (min(G, C) - max(A, E)) * (min(D, H) - max(B, F)) + s2;
+}
