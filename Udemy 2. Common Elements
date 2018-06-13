@@ -1,0 +1,16 @@
+
+
+Idea1:
+vector<int> common_element(vector<int>& a, vector<int>& b) {
+	unordered_map<int, int> container;
+	vector<int> result;
+	for (auto c : a) {
+		container[c] = 1;
+	}
+	for (auto d : b) {
+		if (container.find(d) != container.end()) {
+			result.push_back(d);
+		}
+	}
+	return result;
+}
