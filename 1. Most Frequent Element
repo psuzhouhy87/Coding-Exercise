@@ -1,0 +1,43 @@
+Note:
+Hashmap for convienient searching
+
+
+Idea1:
+int most_frequent(vector<int> &nums) {
+	unordered_map<int, int> container;
+	int maxnum = -1;
+	int index = 0;
+	for (auto a : nums) {
+		if (container.find(a) == container.end()) {
+			container[a] = 1;
+		}
+		else {
+			container[a]++;
+			if (maxnum < container[a]) {
+				maxnum = container[a];
+				index = a;
+			}
+		}
+	}
+	return index;	
+}
+
+
+Idea2:
+bool compare(const pair<int, int> &a, const pair<int, int>& b) {
+	return a.second < b.second;
+}
+
+int most_frequent(vector<int> &nums) {
+	unordered_map<int, int> container;
+	for (auto a : nums) {
+		if (container.find(a) == container.end()) {
+			container[a] = 1;
+		}
+		else {
+			container[a]++;
+		}
+	}
+	return max_element(container.begin(), container.end(), compare)->first;
+	
+}
