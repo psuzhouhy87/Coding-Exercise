@@ -1,0 +1,87 @@
+Idea:
+
+bool is_one_away(string& a, string& b) {
+	int n1 = a.length();
+	int n2 = b.length();
+	string c;
+	string temp ;
+	bool flag = false;
+	bool result = false;
+	int i = 0;
+	if (a == b) return true;
+	if (n1 == n2) {
+		while (i < n1) {
+			if (a[i] == b[i]) i++;
+			else  {
+				if (flag == false) {
+					flag = true;
+					i++;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+		return flag;
+	}
+
+	if (n1 < n2) {
+		for (int i = 0; i < n2; i++) {
+			temp = b;
+			temp.erase(temp.begin()+i);
+			if (temp == a ) return true;
+		}
+		return false;
+	}
+	if (n1 > n2) {
+		for (int i = 0; i < n1; i++) {
+			temp = a;
+			temp.erase(temp.begin() + i);
+			if (temp == b) return true;
+		}
+		return false;
+	}
+}
+
+Idea2: Using additional counter and i + count_diff is a good way for separate the distance. 
+
+bool is_one_away(string& a, string& b) {
+	int n1 = a.length();
+	int n2 = b.length();
+	int count = 0;
+	int j = 0;
+	if (n1 == n2) {
+		for (int i = 0; i < n1; i++) {
+			if (a[i] != b[i]) count++;
+		}
+		if (count == 0 || count == 1) return true;
+		else return false;
+	}
+
+	if (n1 == n2+1) {
+		int i = 0;
+		int count_diff = 0;
+		while (i < n2) {
+			if (a[i + count_diff] == b[i]) i++;
+			else {
+				count_diff++;
+				if (count_diff > 1) return false;
+			}
+		}
+		return true;
+	}
+
+	if (n1 + 1 == n2) {
+		int j = 0;
+		int count_d = 0;
+		while (j < n1) {
+			if (a[j] == b[j + count_d]) j++;
+			else {
+				count_d++;
+				if (count_d > 1) return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
