@@ -1,0 +1,45 @@
+Idea:
+
+vector<vector<int>> mine_sweeper(vector<vector<int>> bomb, int num_rows, int num_cols) {
+	vector<vector<int>> map(num_rows, vector<int>(num_cols,0));
+	vector<int> one_bomb;
+	int n1 = bomb.size();
+	for (int i = 0; i < n1; i++) {
+		map[bomb[i][0]][bomb[i][1]] = -1;
+	}
+	
+	for (int i = 0; i < n1; i++) {
+		if (bomb[i][0] - 1 >= 0 && bomb[i][1] - 1 >=0 && map[bomb[i][0] - 1][bomb[i][1] - 1] != -1) {
+			map[bomb[i][0] - 1][bomb[i][1] - 1]++;
+		}
+		
+		if (bomb[i][0] - 1 >= 0 && map[bomb[i][0] - 1][bomb[i][1]] != -1) {
+			map[bomb[i][0] - 1][bomb[i][1]]++;
+		}
+		
+		if (bomb[i][0] - 1 >= 0 && bomb[i][1] + 1 < num_cols && map[bomb[i][0] - 1][bomb[i][1] + 1] != -1) {
+			map[bomb[i][0] - 1][bomb[i][1] + 1]++;
+		}
+		
+		if (  bomb[i][0] + 1 < num_rows && bomb[i][1] - 1 >=0 && map[bomb[i][0] + 1][bomb[i][1] - 1] != -1) {
+			map[bomb[i][0] + 1][bomb[i][1] - 1]++;
+		}
+		
+		if ( bomb[i][0] + 1 < num_rows && map[bomb[i][0] + 1][bomb[i][1]] != -1) {
+			map[bomb[i][0] + 1][bomb[i][1]]++;
+		}
+		if (bomb[i][0] + 1<num_rows && bomb[i][1] + 1 <num_cols  && map[bomb[i][0] + 1][bomb[i][1] + 1] != -1  ) {
+			map[bomb[i][0] + 1][bomb[i][1] + 1]++;
+		}
+		if (bomb[i][1] + 1 < num_cols && map[bomb[i][0]][bomb[i][1] + 1] != -1 ) {
+			map[bomb[i][0]][bomb[i][1] + 1]++;
+		}
+		
+		if ( bomb[i][1] - 1 >=0 && map[bomb[i][0]][bomb[i][1] - 1] != -1) {
+			map[bomb[i][0]][bomb[i][1] - 1]++;
+		}	
+	}
+	
+	return map;
+
+}
