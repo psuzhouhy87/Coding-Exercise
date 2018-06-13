@@ -1,0 +1,22 @@
+
+Idea1: 
+bool is_rotation(const vector<int>& A, const vector<int> &B) {
+	if (A.size() != B.size()) return false;
+	int key = A[0];
+	int key_i = -1;
+	int j = 0;
+	for (int i = 0; i < B.size(); i++) {
+		if (B[i] == key) {
+			key_i = i;
+			break;
+		}
+	}
+	if (key_i == -1) { return false; }
+	for (int i = 0; i < A.size(); i++) {
+		j = (key_i + i) % A.size();
+		if (A[i] != B[j]) return false;
+	}
+	return true;
+}
+
+Note: find the beginning index and using % operate the index! COOL!
