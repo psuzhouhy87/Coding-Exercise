@@ -1,0 +1,39 @@
+
+Idea: hash table
+char non_repeating(const string& s) {
+	unordered_map<char, vector<int>> container;
+	int index = 100;
+	int aa = 0;
+	for (int i = 0; i < s.length(); i++) {
+		container[s[i]].push_back(i);
+	}
+	for (auto a : container) {
+		if (a.second.size() == 1 ) {
+			if (a.second[0] < index){
+				index = a.second[0];
+			}
+			aa++;
+		}
+	}
+	if (aa == 0) return '\0';
+	return s[index];
+}
+
+Idea: container <char, int> instead of <char, vector>
+char non_repeating(const string& s) {
+	unordered_map<char, int> container;
+	int index = 100;
+	int aa = 0;
+	for (int i = 0; i < s.length(); i++) {
+		if (container.find(s[i]) == container.end()) {
+			container[s[i]] = 1;
+		}
+		else {
+			container[s[i]]++;
+		}
+	}
+	for (char c : s) {
+		if (container[c] == 1) { return c; }
+	}
+	return '\0';
+}
