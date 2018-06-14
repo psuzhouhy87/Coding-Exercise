@@ -1,0 +1,28 @@
+
+Idea: BFS method; using an additional queue!!!
+
+vector<vector<int>> click_mine_sweeper(vector<vector<int>>& map, int num_rows, int num_cols, int given_i, int given_j) {
+	queue<vector<int>> to_check;
+	vector<int> current;
+	if (map[given_i][given_j] != 0) return map;
+	else {
+		map[given_i][given_j] = -2;
+		to_check.push({ given_i,given_j });
+	}
+
+	while (!to_check.empty()) {
+		current = to_check.front();
+		to_check.pop();
+		
+		for (int i = current[0] - 1; i <= current[0] + 1; i++) {
+			for (int j = current[1] - 1; j <= current[1] + 1; j++) {
+				if (i >= 0 && i < num_rows && j >= 0 && j < num_cols && map[i][j] == 0) {
+					map[i][j] = -2;
+					to_check.push({ i,j });
+				}
+			}
+		}
+	}
+	return map;
+
+}
