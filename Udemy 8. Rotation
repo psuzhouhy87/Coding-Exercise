@@ -1,0 +1,42 @@
+Idea: Out-of-Place Method
+
+vector<vector<int>> rotate(vector<vector<int>>& given_array, int n) {
+	int temp = 0;
+	vector<vector<int>> result(given_array.size(),vector<int>(given_array[0].size(),0));
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			result[j][n-1-i] = given_array[i][j]; 
+		}
+	}
+	return result;
+}
+
+Idea: In-Place Method
+
+void rotate_helper(int& i, int& j, int n) {
+	int temp = 0;
+	temp = i;
+	i = j;
+	j = n - 1 - temp;
+}
+
+vector<vector<int>> rotate(vector<vector<int>>& given_array, int n) {
+	int current_i, current_j;
+	for (int i = 0; i <= ceil(n / 2) - 1; i++) {
+		for (int j = 0; j <= floor(n / 2) - 1; j++) {
+			vector<int> tmp= { -1,-1,-1,-1 };
+			current_i = i; current_j = j;
+			for (int k = 0; k <= 3; k++) {
+				tmp[k] = given_array[current_i][current_j];
+				rotate_helper(current_i, current_j, n);
+			}
+			for (int k = 0; k <= 3; k++) {
+				given_array[current_i][current_j] = tmp[(k +3) % 4];
+				rotate_helper(current_i,current_j,n);
+			}
+
+		}
+	}
+	return given_array;
+	
+}
