@@ -23,15 +23,15 @@ void rotate_helper(int& i, int& j, int n) {
 vector<vector<int>> rotate(vector<vector<int>>& given_array, int n) {
 	int current_i, current_j;
 	for (int i = 0; i <= ceil(n / 2) - 1; i++) {
-		for (int j = 0; j <= floor(n / 2) - 1; j++) {
-			vector<int> tmp= { -1,-1,-1,-1 };
-			current_i = i; current_j = j;
-			for (int k = 0; k <= 3; k++) {
+		for (int j = 0; j <= floor(n / 2) - 1; j++) {    //selecting quater part of the initial array, there are 4 of them;
+			vector<int> tmp= { -1,-1,-1,-1 };        //A temp array to contain all the 4 elements on the same path;
+			current_i = i; current_j = j;		 //record current position;					
+			for (int k = 0; k <= 3; k++) {	         //record all the 4 element on the same path;
 				tmp[k] = given_array[current_i][current_j];
 				rotate_helper(current_i, current_j, n);
-			}
-			for (int k = 0; k <= 3; k++) {
-				given_array[current_i][current_j] = tmp[(k +3) % 4];
+			}					// current position value rotated back to original position;
+			for (int k = 0; k <= 3; k++) {		// choose the right one in different order in the same tmp array;
+				given_array[current_i][current_j] = tmp[(k +3) % 4];   // % operation is pretty COOL!
 				rotate_helper(current_i,current_j,n);
 			}
 
