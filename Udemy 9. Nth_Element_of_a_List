@@ -60,6 +60,27 @@ int nthFromLast(Node* start, int n) {
 }
 
 
+int main() {
+	Node* current = new Node(1, NULL);
+	for (int i = 2; i < 8; i++) {
+		current = new Node(i, current);
+	}
+	Node* head = current;
+
+	Node* current2 = new Node(4, NULL);
+	for (int i = 3; i > 0; i--) {
+		current2 = new Node(i, current2);
+	}
+	Node* head2 = current2;
+	string result;
+	result = lingkedlisttostring(head);
+	cout << "the list is " << result << endl;
+	int a;
+	a = nthFromLast(head, 2);
+	cout << "the result is " << a << endl;
+	return 0;
+}
+
 Idea2: Two Pointers       // two pointers set the distance already and only need to go over the list once.
 
 int nthFromLast(Node* start, int n) {
