@@ -1,0 +1,82 @@
+Idea:
+
+class Node {
+private:
+	int value;
+	Node* next;
+
+public:
+	Node(const Node& orig) {
+		next = orig.next;
+		value = orig.value;
+	}
+	Node(int v, Node* n) {
+		value = v;
+		next = n;
+	}
+	~Node() {}
+
+	void setvalue(int val) {
+		value = val;
+	}
+	int getvalue() {
+		return value;
+	}
+	Node* getnext() {
+		return next;
+	}
+};
+
+string lingkedlisttostring(Node *head) {
+	Node* current = head;
+	string s;
+	int val = 0;
+	while (current != NULL) {
+		val = current->getvalue();
+		s = s + to_string(val)+", ";
+		current = current->getnext();
+	}
+	return s;
+}
+
+int nthFromLast(Node* start, int n) {
+	Node* current = start;
+	Node* current2 = start;
+	int length = 0;
+
+	while (current != NULL) {
+		current = current->getnext();
+		length++;
+	}
+	cout << length << endl;
+	if (n > length) return NULL;
+	else {
+		for (int i = 1; i <= length - n; i++) {
+			current2 = current2->getnext();
+		}
+	}
+	
+	return current2->getvalue();
+}
+
+
+Idea2: Two Pointers       // two pointers set the distance already and only need to go over the list once.
+
+int nthFromLast(Node* start, int n) {
+	Node* left = start;
+	Node* right = start;
+	
+	for (int i = 0; i < n; i++) {
+		if (right == NULL)
+			return NULL;
+		else
+			right = right->getnext();
+	}
+	while (right != NULL) {
+		right = right->getnext();
+		left = left->getnext();
+	}
+	return left->getvalue();
+
+}
+
