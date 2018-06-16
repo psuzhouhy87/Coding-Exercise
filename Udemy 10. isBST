@@ -1,0 +1,73 @@
+class TreeNode {
+private:
+	int value;
+	TreeNode* left;
+	TreeNode* right;
+public:
+	TreeNode(int val, TreeNode* l, TreeNode* r) {
+		value = val;
+		left = l;
+		right = r;
+	}
+	int getvalue() { return value; }
+	TreeNode* getleft() { return left; }
+	TreeNode* getright() { return right; }
+	void setleft(TreeNode* ll) { left = ll; }
+	void setright(TreeNode* rr) { right = rr; }
+};
+
+TreeNode* createtree(unordered_map<int, vector<int>> mapping, int headvalue) {
+	TreeNode* head = new TreeNode(headvalue, NULL, NULL);
+	unordered_map<int, TreeNode*> nodes;
+	nodes.insert({ headvalue,head });
+
+	for (unordered_map<int, vector<int>>::iterator it = mapping.begin(); it != mapping.end(); ++it) {
+		vector<int>  value = it->second;
+		TreeNode* leftchild = new TreeNode(value[0], NULL, NULL);
+		TreeNode* rightchild = new TreeNode(value[1], NULL, NULL);
+		nodes.insert({ value[0],leftchild });
+		nodes.insert({ value[1],rightchild });
+	}
+
+	for (unordered_map<int, vector<int>>::iterator it = mapping.begin(); it != mapping.end(); ++it) {
+		vector<int> value = it->second;
+		unordered_map<int, TreeNode*>::iterator iit1 = nodes.find(value[0]);
+		unordered_map<int, TreeNode*>::iterator iit2 = nodes.find(value[1]);
+		unordered_map<int, TreeNode*>::iterator iitcenter = nodes.find(it->first);
+		iitcenter->second->setleft(iit1->second);
+		iitcenter->second->setright(iit2->second);
+	}
+	return head;
+}
+
+bool isBST(TreeNode* node, int lower = NULL, int upper = NULL) {
+	if (lower != NULL && node->getvalue() < lower) return false;
+	if (upper != NULL && node->getvalue() > upper) return false;
+
+	bool is_left_bst = true;
+	bool is_right_bst = true;
+
+	if (node->getleft() != NULL) is_left_bst = isBST(node->getleft(), lower, node->getvalue());
+	if (is_left_bst && node->getright() != NULL) is_right_bst = isBST(node->getright(), node->getvalue(), upper);
+
+	return is_left_bst && is_right_bst;
+}
+
+
+int main() {
+
+	unordered_map<int, vector<int>> mapping1;
+	vector<int> children1 = { 1,5 };
+	vector<int> children2 = { 0,2 };
+	vector<int> children3 = { 4,6 };
+	mapping1.insert({ 3,children1 });
+	mapping1.insert({ 1,children2 });
+	mapping1.insert({ 5,children3 });
+	TreeNode* head = createtree(mapping1, 3);
+
+	bool result;
+	result = isBST(head);
+	cout << "the result is " << result << endl;
+
+	return 0;
+}
