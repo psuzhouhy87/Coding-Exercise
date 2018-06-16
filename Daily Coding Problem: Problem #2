@@ -6,3 +6,33 @@ Follow-up: what if you can't use division?
 
 My Solution:
 
+vector<int> product(vector<int> nums) {
+	vector<int> prefix (nums.size(),1);
+	vector<int> suffix(nums.size(),1);
+
+	for (int i = 1; i < nums.size(); i++) {
+		prefix[i] = (prefix[i-1] * nums[i-1]);
+	}
+	for (auto b : prefix) {
+		cout << b << " ,";
+	}
+	cout << endl;
+	for (int i = nums.size()-2; i >= 0; i--) {
+		suffix[i] = (suffix[i+1] * nums[i+1]);
+	}
+	for (auto c : suffix) {
+		cout << c << " ,";
+	}
+	cout << endl;
+	vector<int> result;
+	
+	for (int i = 0; i < nums.size(); i++) {
+		result.push_back(suffix[i] * prefix[i]);
+	}
+	for (auto d : result) {
+		cout << d << " ,";
+	}
+	cout << endl;
+
+	return result;
+}
