@@ -10,3 +10,17 @@ def cons(a, b):
     return pair
 Implement car and cdr.
 
+My:
+
+pair<int, int> con(int a, int b) {
+	pair<int, int> result = make_pair(a, b);
+	return result;
+}
+
+int car(pair<int, int> p) {
+	return p.first;
+}
+
+int cdr(pair<int, int> p) {
+	return p.second;
+}
