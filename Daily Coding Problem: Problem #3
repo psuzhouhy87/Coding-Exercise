@@ -12,3 +12,99 @@ The following test should pass:
 node = Node('root', Node('left', Node('left.left')), Node('right'))
 assert deserialize(serialize(node)).left.left.val == 'left.left'
 
+struct node {
+	int data;
+	node* left;
+	node* right;
+};
+
+node* newNode(int dat) {
+	node* newnode = new node();
+	newnode->data = dat;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	return newnode;
+}
+
+bool findPath(node* root, vector<int>& path, int k) {
+	if (root == NULL) return false;
+	path.push_back(root->data);
+	if (root->data == k) return true;
+	if ((root->left && findPath(root->left, path, k)) || (root->right && findPath(root->right, path, k)))
+		return true;
+	path.pop_back();
+	return false;
+}
+
+string serialize(node* root) {
+	if (root == NULL) return "#";
+	return (to_string(root->data)+ serialize(root->left)+serialize(root->right));
+}
+
+int helper(string& data) {
+	if (data != "") {
+		int one= stoi(data.substr(0,1));
+		int val = one;
+		data = data.substr(1);
+		cout << data << " ,";
+		return val;
+	}
+
+}
+
+node* mydeserialize(string& data) {
+	if (data[0] == '#') {
+		if (data.size() > 1) data = data.substr(1);
+		return NULL;
+	}
+	if(data.size()!= 0) {
+		node* node = newNode(helper(data));
+		node->left = mydeserialize(data);
+		node->right = mydeserialize(data);
+		return node;
+	}
+}
+
+
+node* deserialize(string s) {
+	return mydeserialize(s);
+}
+
+
+/*int findLCA(node* root, int n1, int n2) {
+	vector<int> path1, path2;
+	if (!findPath(root, path1, n1) || !findPath(root, path2, n2)) {
+		return -1;
+	}
+	int i;
+	for (i = 0; i < path1.size() && i < path2.size(); i++) {
+		if (path1[i] != path2[i])
+			break;
+	}
+	return path1[i - 1];
+} 
+*/
+int main() {
+	node* root = newNode(1);
+	root->left = newNode(2);
+	root->right = newNode(3);
+	//root->left->left = newNode(4);
+	//root->left->right = newNode(5);
+	//root->right->left = newNode(6);
+	//root->right->right = newNode(7);
+	
+	string s;
+	s = serialize(root);
+	cout << "resutl is " << s << endl; 
+	node* newresult;
+	newresult = deserialize(s);
+
+	string ss;
+	ss = serialize(newresult);
+	cout << "new result is " << ss << endl;
+
+	getchar();
+
+
+	return 0;
+}
