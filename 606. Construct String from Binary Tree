@@ -1,0 +1,7 @@
+string tree2str(node* t) {
+	if (t == NULL) return "";
+	if (t->left == NULL && t->right == NULL) return to_string(t->data);
+	else if (t->left == NULL && t->right != NULL) return to_string(t->data) + "(" + tree2str(t->right) + ")";
+	else if (t->right == NULL && t->left != NULL) return to_string(t->data) + "(" + tree2str(t->left) + ")";
+	else return to_string(t->data) + "(" + tree2str(t->left) + ")" + "(" + tree2str(t->right) + ")";
+}
