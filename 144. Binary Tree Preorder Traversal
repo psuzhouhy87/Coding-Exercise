@@ -1,0 +1,33 @@
+Recursive Result:
+
+vector<int> result;
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root != nullptr){
+            result.push_back(root->val);
+            preorderTraversal(root->left);
+            preorderTraversal(root->right);
+        }
+        return result;
+    }
+    
+    
+ Iterative Result:
+ 
+ class Solution {
+public:
+	vector<int> result;
+	vector<int> preorderTraversal(node* root) {
+		stack<node*> container;
+		container.push(root);
+		while (!container.empty()) {
+			node* node1 = container.top();
+			container.pop();
+			if (node1 != nullptr) {
+				result.push_back(node1->data);
+				container.push(node1->right);
+				container.push(node1->left);
+			}
+		}
+		return result;
+	}
+};
