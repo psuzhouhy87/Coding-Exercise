@@ -1,0 +1,14 @@
+int counter = 0;
+	int result = 0;
+	void kthsmallest(node* root,int k) {
+		if (root) {
+			if (root->left) {
+				kthsmallest(root->left, k);
+			}
+			counter++;
+			if (counter == k)  result = root->data;
+			if (root->right) {
+				kthsmallest(root->right, k);
+			}
+		}	
+	}
