@@ -1,0 +1,22 @@
+listnode* adding(listnode* l1, listnode* l2) {
+	int sum = 0;
+	listnode* head = new listnode(0);
+	listnode* curr = head;
+	while (l1 != nullptr || l2 != nullptr) {
+		if (l1 != nullptr) {
+			sum += l1->val;
+			l1 = l1->next;
+		}
+		if (l2 != nullptr) {
+			sum += l2->val;
+			l2 = l2->next;
+		}
+		 head->next = new listnode( sum % 10);
+		sum = sum / 10;
+		head = head->next;
+	}
+	if (sum == 1) {
+		head->next = new listnode(1);
+	}
+	return curr->next;
+}
