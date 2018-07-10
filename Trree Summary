@@ -1,0 +1,210 @@
+// ConsoleApplication7.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class node {
+public:
+	node* left;
+	node* right;
+	int val;
+	node(int val) {
+		this->val = val;
+		this->left = nullptr;
+		this->right = nullptr;
+	}
+	node(int val, node* left, node*right) {
+		this->val = val;
+		this->left = left;
+		this->right = right;
+	}
+	~node() {}
+
+};
+
+node* sample() {
+	node* root = new node(5,
+		new node(3,
+			new node(2), new node(4)),
+		new node(7,
+			new node(6), new node(8)));
+	return root;
+}
+
+string printtree(node* root) {
+	if (root == nullptr) return "";
+	return (printtree(root->left) +" "+ to_string(root->val)+" " + printtree(root->right));
+}
+
+void dfs(node* root) {
+	if (root == nullptr) return;
+	dfs(root->left);
+	cout << root->val << " ";
+	dfs(root->right);
+}
+
+void dfsiterative(node* root) {
+	stack<node*> stack;
+	node* pcurrent = root;
+	while (!stack.empty() || pcurrent) {
+		if (pcurrent) {
+			stack.push(pcurrent);
+			pcurrent = pcurrent->left;
+		}
+		else {
+			node* pNode = stack.top();
+			cout << pNode->val << " ";
+			stack.pop();
+			pcurrent = pNode->right;
+		}
+	}
+}
+
+
+void bfs(node* root) {
+	queue<node*> con;
+	con.push(root);
+	while (!con.empty()) {
+		node* node1 = con.front(); con.pop();
+		cout << node1->val << " ";
+		if (node1->left) { con.push(node1->left); }
+		if (node1->right) { con.push(node1->right); }
+	}
+}
+
+
+
+void greatertree(node* root,int& sum) {
+	if (root == nullptr) return;
+	greatertree(root->right,sum);
+	sum += root->val;
+	root->val = sum;
+	greatertree(root->left,sum);
+}
+
+bool hasPathSum(node* root, int sum) {
+	if (root == nullptr) return false;
+	if (root->left == nullptr && root->right == nullptr) return root->val == sum;
+	bool left = hasPathSum(root->left, sum - root->val);
+	bool right = hasPathSum(root->right, sum - root->val);
+	return left || right;
+}
+
+int diameterhelper(node* root, int& res) {
+	if (root == nullptr) return 0;
+	int left = diameterhelper(root->left, res);
+	int right = diameterhelper(root->right, res);
+	res = max(res, left + right);
+	return max(left, right) + 1;
+}
+int diameter(node* root) {
+	int res = 0;
+	diameterhelper(root, res);
+	return res;
+}
+
+vector<string> binarytreepaths(node* root) {
+	queue<node*> con1;
+	queue<string> con2;
+	vector<string> res;
+	if (root == nullptr) return {};
+	con1.push(root);
+	con2.push("");
+	while (!con1.empty()) {
+		node* node1 = con1.front(); con1.pop();
+		string s = con2.front(); con2.pop();
+		if (node1->left == nullptr && node1->right == nullptr) res.push_back(s + to_string(node1->val));
+		if (node1->left) {
+			con1.push(node1->left); con2.push(s + to_string(node1->val));
+		}
+		if (node1->right) {
+			con1.push(node1->right); con2.push(s + to_string(node1->val));
+		}
+	}
+	return res;
+}
+
+bool isSymetrichelper(node* left, node* right) {
+	if (!left && !right) return true;
+	else if (!left || !right) return false;
+	else if (left->val != right->val) return false;
+	else {
+		return isSymetrichelper(left->left, right->right) && isSymetrichelper(left->right, right->left);
+	}
+}
+
+bool isSymmetric(node* root) {
+	if (root == nullptr) return true;
+	return isSymetrichelper(root->left, root->right);
+}
+
+node* lowestCommonAncester(node* root, node* p, node* q) {
+	if (root == nullptr) return nullptr;
+	if (root == p || root == q) return root;
+
+	node* left = lowestCommonAncester(root->left, p, q);
+	node* right = lowestCommonAncester(root->right, p, q);
+
+	if (left != nullptr && right != nullptr) return root;
+	if (right == nullptr) return left;
+	if (left == nullptr) return right;
+}
+
+bool isBST(node* root, int lower = NULL, int upper = NULL) {
+	if (lower != NULL && root->val < lower) return false;
+	if (upper != NULL && root->val > upper) return false;
+
+	bool is_left = true;
+	bool is_right = true;
+
+	if (root->left != nullptr) is_left = isBST(root->left, lower, root->val);
+	if ( root->right) is_right = isBST(root->right, root->val, upper);
+	return is_left && is_right;
+}
+
+void dfslevel(node* root, int level, vector<vector<int>>& res) {
+	if (root == nullptr) return;
+	if (level >= res.size()) {
+		res.push_back({});
+	}
+	res[level].push_back(root->val);
+	dfslevel(root->left, level + 1, res);
+	dfslevel(root->right, level + 1, res);
+}
+vector<vector<int>> levelorder(node* root) {
+	vector<vector<int>> res;
+	dfslevel(root, 0, res);
+	return res;
+}
+
+int main(void) {
+	node* root = sample();
+	dfs(root);
+	cout << endl;
+	bfs(root);
+	cout << endl;
+	dfsiterative(root);
+	cout << endl;
+	cout << "greater tree" << endl;
+	
+	vector<vector<int>> res;
+	res = levelorder(root);
+
+	for (auto a : res) {
+		for (int b : a) {
+			cout << b << " ";
+		}
+		cout << endl;
+	}
+
+	return 0;
+}
