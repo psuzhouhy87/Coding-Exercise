@@ -1,0 +1,36 @@
+class MyQueue {
+public:
+	stack<int> first;
+	stack<int> second;
+	int temp, temp1;
+	void enqueue(int n) {
+		first.push(n);
+	}
+
+	int dequeue() {
+		
+		while (!this->first.empty()) {
+			temp1 = this->first.top();
+			this->second.push(temp1);
+			this->first.pop();
+		}
+		temp = this->second.top();
+		this->second.pop();
+		
+		return temp;
+	}
+
+	void display() {
+		while (!first.empty()) {
+			cout << first.top() << " ";
+			first.pop();
+		}
+	}
+	void display1() {
+		while (!second.empty()) {
+			cout << second.top() << " ";
+			second.pop();
+		}
+	}
+
+};
